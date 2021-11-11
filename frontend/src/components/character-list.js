@@ -79,6 +79,12 @@ const CharacterList = props => {
       find(searchValue, searchBy);
     }
 
+    const onKeyUp = (e) => {
+      if (e.charCode === 13) {
+        doSearch();
+      }
+    } 
+
     return (
       <div>
         <div className="row pd-1">
@@ -99,6 +105,7 @@ const CharacterList = props => {
                 aria-describedby="basic-addon1"
                 value={searchValue}
                 onChange={onChangeSearchValue}
+                onKeyPress={onKeyUp}
               />
               <button
                 className="btn btn-outline-secondary"
