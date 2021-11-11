@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from "react";
 import CharacterDataService from "../services/character.js";
 import { DropdownButton, Dropdown, InputGroup, FormControl } from "react-bootstrap";
-import PaginationBasic from "./pagination.js";
+// import PaginationBasic from "./pagination.js";
 
 
 const CharacterList = props => {
   const [characters, setCharacters] = useState([]);
   const [searchBy = "name", setSearchBy] = useState("name");
   const [searchValue, setSearchValue ] = useState("");
-  const [pages, setPages] = useState();
+  // const [pages, setPages] = useState();
 
     useEffect(() => {
       retrieveCharacters();
@@ -19,19 +19,31 @@ const CharacterList = props => {
       setSearchValue(searchValue);
     }
 
+    const compareStrings = (a,b) => {
+      a = a.toLowerCase();
+      b = b.toLowerCase();
+
+      return (a < b) ? -1 : (a > b) ? 1 : 0;
+    }
+
     const retrieveCharacters = () => {
       CharacterDataService.getAll()
         .then(response => {
           console.log(response.data);
-          setCharacters(response.data.characters);
-          if (response.data.total_results < response.data.entries_per_page){
-            setPages(1);
-          } else {
-          setPages((response.data.total_results / response.data.entries_per_page)+1);
-          }
-          console.log(pages);
-        })
-        .catch(e => {
+          const sortedCharacters = response.data.characters.sort(
+            function(a,b){
+              return compareStrings(a.name,b.name);
+          });
+          console.log(sortedCharacters);
+          setCharacters(sortedCharacters);
+        //   if (response.data.total_results < response.data.entries_per_page){
+        //     setPages(1);
+        //   } else {
+        //   setPages((response.data.total_results / response.data.entries_per_page)+1);
+        //   }
+        //   console.log(pages);
+        // 
+        }).catch(e => {
           console.log(e);
         });
     };
@@ -44,13 +56,17 @@ const CharacterList = props => {
       CharacterDataService.find(query, by)
         .then(response => {
           console.log(response.data);
-          setCharacters(response.data.characters);
-          if (response.data.total_results < response.data.entries_per_page){
-            setPages(1);
-          } else {
-          setPages((response.data.total_results / response.data.entries_per_page)+1);
-          }
-          console.log(pages);
+          const sortedCharacters = response.data.characters.sort(
+            function(a,b){
+              return compareStrings(a.name,b.name);
+          });
+          console.log(sortedCharacters);
+          setCharacters(sortedCharacters);          // if (response.data.total_results < response.data.entries_per_page){
+          //   setPages(1);
+          // } else {
+          // setPages((response.data.total_results / response.data.entries_per_page)+1);
+          // }
+          // console.log(pages);
         })
         .catch(e => {
           console.log(e);
@@ -119,6 +135,7 @@ const CharacterList = props => {
           
         <div className="row">
           {characters.map((character) => {
+
             return (
               <div className="col-lg-4 pb-1">
                 <div className="card">
@@ -135,7 +152,7 @@ const CharacterList = props => {
             );
           })}
         </div>
-        <PaginationBasic page_max={pages}></PaginationBasic>
+        {/* <PaginationBasic page_max={pages}></PaginationBasic> */}
       </div>
       </div>
     );

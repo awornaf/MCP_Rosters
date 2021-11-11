@@ -16,8 +16,8 @@ export default class CharactersDAO {
 
     static async getCharacters({
         filters = null,
-        page = 0,
-        charactersPerPage = 21,
+        //page = 0,
+        //charactersPerPage = 21,
     } = {}) {
         let query
         if (filters) {
@@ -41,7 +41,7 @@ export default class CharactersDAO {
             return { charactersList: [], totalNumCharacters: 0 }
         }
 
-        const displayCursor = cursor.limit(charactersPerPage).skip(charactersPerPage * page);
+        const displayCursor = cursor //.limit(charactersPerPage).skip(charactersPerPage * page);
 
         try {
             const charactersList = await displayCursor.toArray();

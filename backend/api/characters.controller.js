@@ -2,8 +2,8 @@ import CharactersDAO from "../dao/charactersDAO.js";
 
 export default class CharactersController {
     static async apiGetCharacters(req, res, next) {
-        const charactersPerPage = req.query.charactersPerPage ? parseInt(req.query.charactersPerPage, 10) : 21;
-        const page = req.query.page ? parseInt(req.query.page, 10) : 0;
+        //const charactersPerPage = req.query.charactersPerPage ? parseInt(req.query.charactersPerPage, 10) : 21;
+        //const page = req.query.page ? parseInt(req.query.page, 10) : 0;
 
         let filters = {};
         if (req.query.threat) {
@@ -17,15 +17,15 @@ export default class CharactersController {
         }
         const { charactersList, totalNumCharacters } = await CharactersDAO.getCharacters({
             filters,
-            page,
-            charactersPerPage,
+            //page,
+           // charactersPerPage,
         })
 
         let response = {
             characters: charactersList,
-            page: page,
+           // page: page,
             filters: filters,
-            entries_per_page: charactersPerPage,
+           // entries_per_page: charactersPerPage,
             total_results: totalNumCharacters,
         }
         res.json(response);
