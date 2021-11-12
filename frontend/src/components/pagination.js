@@ -1,5 +1,5 @@
 import Pagination from 'react-bootstrap/Pagination'
-import React, {useState, useEffect} from "react";
+import React from "react";
 
 
 const PaginationBasic = (props) =>{

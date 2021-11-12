@@ -22,13 +22,15 @@ export default class CharactersDAO {
         let query
         if (filters) {
             if ("name" in filters) {
-                query = { $text: { $search: filters["name"]}}
+                query = { $text:  { $search: filters["name"]}}
             } else if ("alias" in filters) {
                 query = { $text: { $search: filters["alias"]}}
             } else if ("threat" in filters) {
                 query = { "threat": { $eq: parseInt(filters["threat"])}}
             } else if ("affiliation" in filters) {
-                query = { $text: { $search: filters["affiliation"]}}
+                const affArray = [];
+                affArray.push(filters.affiliation);
+                query = { "affiliations": { $in: affArray}}
             }
         }
 
